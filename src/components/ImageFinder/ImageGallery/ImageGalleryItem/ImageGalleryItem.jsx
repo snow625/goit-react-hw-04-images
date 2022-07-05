@@ -1,11 +1,14 @@
+import { memo } from "react";
 import PropTypes from "prop-types";
 
 import style from "./imageGalleryItem.module.css";
 
 const ImageGalleryItem = (props) => {
-  const { src, alt, onClick, index } = props;
+  const { src, alt, onClick, largeImageURL } = props;
+  const obj = { largeImageURL, alt };
+
   return (
-    <li onClick={() => onClick(index)} className={style.item}>
+    <li onClick={() => onClick(obj)} className={style.item}>
       <img className={style.image} src={src} alt={alt} />
     </li>
   );
@@ -18,4 +21,4 @@ ImageGalleryItem.propTypes = {
   index: PropTypes.number.isRequired,
 };
 
-export default ImageGalleryItem;
+export default memo(ImageGalleryItem);

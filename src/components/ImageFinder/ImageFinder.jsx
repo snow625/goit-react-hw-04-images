@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import Searchbar from "./Searchbar";
 import { getImgsByQwery } from "../../shared/serveces/pixabay";
@@ -68,28 +68,32 @@ const ImageFinder = () => {
     });
   };
 
-  const setQweryInState = (value) => {
-    const { qwery } = paramSearch;
-    if (value !== qwery) {
-      setParamSearch({ qwery: value, page: 1, totalPages: 0 });
-      setItems([]);
-    }
-  };
+  const setQweryInState = useCallback(
+    (value) => {
+      const { qwery } = paramSearch;
+      if (value !== qwery) {
+        setParamSearch({ qwery: value, page: 1, totalPages: 0 });
+        setItems([]);
+      }
+    },
+    [paramSearch.qwery, setParamSearch, setItems]
+  );
 
-  const setModalImg = (index) => {
-    const { src: currentSrc } = modalParams.modalImg;
-    const { largeImageURL: src, tags: alt } = items[index];
-
-    if (currentSrc !== src) {
-      SetModalParams({
-        modalImg: {
-          src,
-          alt,
-        },
-        modalOpen: true,
-      });
-    }
-  };
+  const setModalImg = useCallback(
+    (obj) => {
+      const { src: currentSrc } = modalParams.modalImg;
+      const { largeImageURL: src, alt } = obj;
+       if (currentSrc !== src) {
+        SetModalParams({
+          modalImg: {
+            src,
+            alt,
+          },
+          modalOpen: true,
+        });
+      }
+    }, [modalParams.modalImg])
+  
 
   const closeModal = () => {
     SetModalParams({

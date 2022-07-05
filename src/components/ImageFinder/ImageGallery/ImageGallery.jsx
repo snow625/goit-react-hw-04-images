@@ -6,15 +6,15 @@ import style from "./imageGallery.module.css";
 
 const ImageGallery = (props) => {
   const { items, onClick } = props;
-  const elements = items.map((el, i) => {
-    const { id, webformatURL, tags } = el;
+  const elements = items.map((el) => {
+    const { id, webformatURL, tags, largeImageURL } = el;
     return (
       <ImageGalleryItem
         onClick={onClick}
-        index={i}
         key={id}
         src={webformatURL}
         alt={tags}
+        largeImageURL={largeImageURL}
       />
     );
   });
